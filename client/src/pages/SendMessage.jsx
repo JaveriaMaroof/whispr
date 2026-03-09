@@ -13,7 +13,7 @@ export default function SendMessage(){
 
         try{
 
-            await axios.post("http://localhost:5000/api/send-message",{
+            await axios.post("https://whispr-production-9678.up.railway.app/api/send-message",{
                 receiver: username,
                 text: text
             });
