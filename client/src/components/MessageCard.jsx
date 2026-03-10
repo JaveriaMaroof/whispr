@@ -7,7 +7,7 @@ export default function MessageCard({ message }) {
 
     const handleReply = async () => {
         try {
-            const res = await axios.post(`http://localhost:5000/api/reply/${message._id}`, {
+            const res = await axios.post(`https://whispr-production-9678.up.railway.app/api/reply/${message._id}`, {
                 reply
             });
             setStatus("Reply sent!");
