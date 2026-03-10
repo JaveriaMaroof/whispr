@@ -1,60 +1,52 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
-export default function Login(){
+export default function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-    const [username,setUsername] = useState("");
-    const [password,setPassword] = useState("");
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post(
+        "https://whispr-production-9678.up.railway.app/api/login",
+        { username, password }
+      );
 
-    const navigate = useNavigate();
-
-    const handleLogin = async () => {
-
-        try{
-
-            const res = await axios.post("https://whispr-production-9678.up.railway.app/api/login",{
-                username,
-                password
-            });
-
-            alert(res.data.message);
-
-            localStorage.setItem("username", username);
-
-            navigate("/dashboard");
-
-        }catch(err){
-            console.log(err);
-        }
+      if (res.data.message === "Login successful") {
+        localStorage.setItem("username", res.data.username);
+        navigate("/dashboard");
+      } else {
+        alert(res.data.message); // wrong password or user not found
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Server error, try again later");
     }
+  };
 
-    return(
-        <div className="login-page">
+  return (
+    <div className="login-page">
+      <div className="login-card">
+        <h2>Ready to see what people said?</h2>
 
-            <div className="login-card">
+        <input
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
-                <h2>Ready to see what people said?</h2>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-                <input
-                    placeholder="Username"
-                    onChange={e=>setUsername(e.target.value)}
-                />
-
-                <input
-                    type="password"
-                    placeholder="Password"
-                    onChange={e=>setPassword(e.target.value)}
-                />
-
-                <button onClick={handleLogin}>
-                    Login
-                </button>
-
-            </div>
-
-        </div>
-    )
+        <button onClick={handleLogin}>Login</button>
+      </div>
+    </div>
+  );
 }
