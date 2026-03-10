@@ -32,10 +32,10 @@ app.post("/api/send-message", async (req,res)=>{
 
     try{
 
-        const {to,text} = req.body;
+        const {receiver,text} = req.body;
 
         const message = new Message({
-            receiver: to,
+            receiver: receiver,
             text: text
         });
 
