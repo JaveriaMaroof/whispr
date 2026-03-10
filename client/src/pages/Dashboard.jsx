@@ -26,7 +26,7 @@ export default function Dashboard() {
 
  useEffect(() => {
   const fetchMessages = async () => {
-    const res = await axios.get(`http://localhost:5000/api/messages/${username}`);
+    const res = await axios.get(`https://whispr-production-9678.up.railway.app/api/messages/${username}`);
     setMessages(res.data);
   };
 
