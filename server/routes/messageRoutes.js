@@ -42,6 +42,9 @@ router.get("/messages/:username", async (req, res) => {
     }
 });
 
+
+
+
 // uper cmnted update
 // GET anonymous user page data (optional, frontend ke liye)
 router.get("/user/:username", async (req, res) => {
@@ -69,7 +72,7 @@ router.post("/reply/:id", async (req, res) => {
 
         const updatedMessage = await Message.findByIdAndUpdate(
             messageId,
-            { reply },
+            { reply: reply },
             { new: true }
         );
 

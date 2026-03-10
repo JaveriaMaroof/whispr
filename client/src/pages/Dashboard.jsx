@@ -24,14 +24,37 @@ export default function Dashboard() {
   }, 2000);
 };
 
- useEffect(() => {
+
   const fetchMessages = async () => {
-    const res = await axios.get(`https://whispr-production-9678.up.railway.app/api/messages/${username}`);
+
+    const res = await axios.get(
+      `https://whispr-production-9678.up.railway.app/api/messages/${username}`
+    );
+
     setMessages(res.data);
   };
 
-  if(username) fetchMessages();
-}, [username]);
+
+
+ useEffect(() => {
+    if(username) fetchMessages();
+  }, [username]);
+
+
+
+    // reply function
+  const sendReply = async (id, replyText) => {
+
+    if(!replyText) return alert("Write a reply first");
+
+    await axios.post(
+      `https://whispr-production-9678.up.railway.app/api/reply/${id}`,
+      { reply: replyText }
+    );
+
+    fetchMessages(); // refresh messages
+
+  };
 
   return (
     <div className="dashboard-page">
@@ -52,7 +75,7 @@ export default function Dashboard() {
 
         <div className="messages-grid">
           {messages.map((msg) => (
-            <MessageCard key={msg._id} message={msg} />
+            <MessageCard key={msg._id} message={msg} onReply={sendReply} />
           ))}
         </div>
       </div>
