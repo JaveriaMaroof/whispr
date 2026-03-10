@@ -21,23 +21,49 @@ export default function StoryCard({ username }) {
 
     if (isMobile) {
 
-      // mobile → open image
-      const newTab = window.open();
-      newTab.document.body.style.margin = "0";
-      newTab.document.body.innerHTML = `
-        <img src="${image}" style="width:100%;height:auto;" />
-        <p style="text-align:center;font-family:sans-serif;">
-        Long press image to save 📥
-        </p>
-      `;
+      // Mobile → replace page with image
+      const newWindow = window.open("");
+      newWindow.document.write(`
+        <html>
+        <head>
+        <title>Save Image</title>
+        <style>
+        body{
+        margin:0;
+        background:black;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        height:100vh;
+        color:white;
+        font-family:sans-serif;
+        }
+        img{
+        width:100%;
+        max-width:500px;
+        }
+        p{
+        margin-top:10px;
+        }
+        </style>
+        </head>
+        <body>
+        <img src="${image}" />
+        <p>Long press image to save 📥</p>
+        </body>
+        </html>
+      `);
 
     } else {
 
-      // desktop → download
+      // Desktop → download
       const link = document.createElement("a");
-      link.download = `${username}-story.png`;
       link.href = image;
+      link.download = `${username}-story.png`;
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
 
     }
 
@@ -55,12 +81,12 @@ export default function StoryCard({ username }) {
 
         <p className="link">{profileLink}</p>
 
-        <p className="hint">Tap link and send me messages</p>
+        <p className="hint">Tap link and send me messages 👀</p>
 
       </div>
 
       <button className="download-btn" onClick={downloadCard}>
-        Download
+        Download Story Card
       </button>
 
     </div>
