@@ -12,7 +12,9 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: "*"
+  origin: "https://whispr-hazel-six.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json());
