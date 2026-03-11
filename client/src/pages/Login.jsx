@@ -11,7 +11,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "https://whispr-production-9678.up.railway.app/api/login",
+        `${import.meta.env.VITE_API_URL}/api/login`,
         { username, password }
       );
 

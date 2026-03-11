@@ -12,7 +12,7 @@ export default function Signup() {
   const handleSignup = async () => {
     try {
       const res = await axios.post(
-        "https://whispr-production-9678.up.railway.app/api/signup",
+        `${import.meta.env.VITE_API_URL}/api/signup`,
         { username, email, password }
       );
       setMessage(res.data.message);

@@ -1,59 +1,59 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+
 const messageRoutes = require("./routes/messageRoutes");
 const authRoutes = require("./routes/authRoutes");
 const Message = require("./models/Message");
+
 require("dotenv").config();
 
 const app = express();
 
-// app.use(cors());
+// Middleware
 app.use(cors({
-    origin: "*"
+  origin: "*"
 }));
 
-
 app.use(express.json());
+
+// Routes
 app.use("/api", messageRoutes);
-// auth route
 app.use("/api", authRoutes);
 
+// MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
-.then(()=>console.log("MongoDB connected"))
-.catch(err=>console.log(err));
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log(err));
 
-app.get("/", (req,res)=>{
-    res.send("API Running");
+// Test route
+app.get("/", (req, res) => {
+  res.send("API Running");
 });
 
-// api/send route
-app.post("/api/send-message", async (req,res)=>{
+// Send message route
+app.post("/api/send-message", async (req, res) => {
+  try {
+    const { to, text } = req.body;
 
-    try{
+    const message = new Message({
+      receiver: to,
+      text: text
+    });
 
-        const {receiver,text} = req.body;
+    await message.save();
 
-        const message = new Message({
-            receiver: receiver,
-            text: text
-        });
+    res.json({ message: "Message sent successfully" });
 
-        await message.save();
-
-        res.json({message:"Message sent successfully"});
-
-    }catch(err){
-
-        console.log(err);
-        res.status(500).json({error:"Server error"});
-
-    }
-
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
+// Server start
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, ()=>{
-    console.log("Server running");
+app.listen(PORT, () => {
+  console.log("Server running");
 });
