@@ -59,7 +59,7 @@ export default function Dashboard() {
   return (
     <div className="dashboard-page">
       <div className="dashboard-container">
-        <h1>What people said 👀</h1>
+        <h1>Let's see what people said 👀</h1>
         
             <div className="share-box">
   <StoryCard username={username} />
