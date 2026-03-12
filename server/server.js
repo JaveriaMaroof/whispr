@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const User = require("../models/User");
+
 
 const messageRoutes = require("./routes/messageRoutes");
 const authRoutes = require("./routes/authRoutes");
@@ -35,24 +37,24 @@ app.get("/", (req, res) => {
 });
 
 // Send message route
-app.post("/api/send-message", async (req, res) => {
-  try {
-    const { to, text } = req.body;
+// app.post("/api/send-message", async (req, res) => {
+//   try {
+//     const { to, text } = req.body;
 
-    const message = new Message({
-      receiver: to,
-      text: text
-    });
+//     const message = new Message({
+//       receiver: to,
+//       text: text
+//     });
 
-    await message.save();
+//     await message.save();
 
-    res.json({ message: "Message sent successfully" });
+//     res.json({ message: "Message sent successfully" });
 
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Server error" });
-  }
-});
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ error: "Server error" });
+//   }
+// });
 
 // Server start
 const PORT = process.env.PORT || 5000;
