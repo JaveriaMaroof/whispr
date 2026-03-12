@@ -23,7 +23,7 @@ export default function Login() {
       }
     } catch (err) {
       console.log(err);
-      alert("Server error, try again later");
+      alert(err.response?.data?.message || "Server error");
     }
   };
 
