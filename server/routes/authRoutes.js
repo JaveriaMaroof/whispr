@@ -1,6 +1,7 @@
-// backend/routes/authRoutes.js
+// server/routes/authRoutes.js
 const express = require("express");
 const router = express.Router();
+const User = require("../models/User");
 
 
 // SIGNUP
